@@ -38,33 +38,6 @@ A lightweight, client-side web app that picks a random Seinfeld episode from the
     └── icon-512.png    # PWA icon (512 × 512)
 ```
 
-## Getting Started
-
-### Run locally
-
-```bash
-git clone https://github.com/OrF8/RandomSeinfeldEpisode.git
-cd RandomSeinfeldEpisode
-```
-
-Then serve the files with any static file server, for example:
-
-```bash
-# Python 3
-python -m http.server 8080
-```
-
-Open `http://localhost:8080` in your browser.
-
-Alternatively, you can open `index.html` directly in most browsers, though some browsers restrict `fetch` requests from `file://` URLs, which would prevent the episode image from loading.
-
-## Deployment with GitHub Pages
-
-1. Push the repository to GitHub.
-2. Go to **Settings → Pages**.
-3. Under **Source**, select **Deploy from a branch**, choose the `main` branch and the `/ (root)` folder.
-4. Save. GitHub Pages will publish the site at `https://OrF8.github.io/RandomSeinfeldEpisode/`.
-
 ## PWA Support
 
 The app includes a `manifest.json` and a `service-worker.js`, which enable it to be installed as a Progressive Web App on supported devices and browsers.
@@ -77,6 +50,11 @@ The app includes a `manifest.json` and a `service-worker.js`, which enable it to
 - **Episode images** are fetched from the TVmaze API. If an episode has no image in their database, a fallback message is displayed instead.
 - **PWA install prompt** behavior varies by browser. On iOS (Safari), the standard `beforeinstallprompt` event is not supported; users can still add the app to their Home Screen manually via the Share menu.
 
+## Sources
+- Episode data: manually compiled canonical list of 180 Seinfeld episodes from [Wikipedia](https://en.wikipedia.org/wiki/List_of_Seinfeld_episodes)
+- Episode images: [TVmaze API](https://www.tvmaze.com/api)
+- Seinfeld © NBC / Castle Rock Entertainment
+
 ## License
 
-This project does not currently include a license file. All rights reserved by the author unless otherwise stated.
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/OrF8/RandomSeinfeldEpisode/blob/main/LICENSE) file for details.
