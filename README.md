@@ -33,9 +33,10 @@ A lightweight, client-side web app that picks a random Seinfeld episode from the
 ├── script.js           # Episode data, sampling logic, and UI behavior
 ├── manifest.json       # PWA web app manifest
 ├── service-worker.js   # Service worker for offline/PWA support
-└── icons/
-    ├── icon-192.png    # PWA icon (192 × 192)
-    └── icon-512.png    # PWA icon (512 × 512)
+├── icons/
+│   ├── icon-192.png    # PWA icon (192 × 192)
+│   └── icon-512.png    # PWA icon (512 × 512)
+└── LICENSE
 ```
 
 ## PWA Support
