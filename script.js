@@ -1,3 +1,8 @@
+const NETFLIX_SEINFELD_URL = "https://www.netflix.com/title/70153373";
+const TVMAZE_SHOW_SEARCH = "https://api.tvmaze.com/singlesearch/shows?q=seinfeld";
+const TVMAZE_EPISODE_BY_NUMBER = (showId, season, number) =>
+  `https://api.tvmaze.com/shows/${showId}/episodebynumber?season=${season}&number=${number}`;
+
 const episodes = [
   [1, 1, "The Seinfeld Chronicles"],
   [1, 2, "The Stake Out"],
@@ -24,7 +29,7 @@ const episodes = [
   [3, 4, "The Dog"],
   [3, 5, "The Library"],
   [3, 6, "The Parking Garage"],
-  [3, 7, "The Café"],
+  [3, 7, "The Cafe"],
   [3, 8, "The Tape"],
   [3, 9, "The Nose Job"],
   [3, 10, "The Stranded"],
@@ -151,17 +156,17 @@ const episodes = [
   [8, 9, "The Abstinence"],
   [8, 10, "The Andrea Doria"],
   [8, 11, "The Little Jerry"],
-  [8, 12, "The money"],
-  [8, 13, "The Comeback"],
-  [8, 14, "The Van Buren Boys"],
-  [8, 15, "The Susie"],
-  [8, 16, "The Pothole"],
-  [8, 17, "The English Patient"],
-  [8, 18, "The Nap"],
+  [8, 12, "The Comeback"],
+  [8, 13, "The Van Buren Boys"],
+  [8, 14, "The Susie"],
+  [8, 15, "The Pothole"],
+  [8, 16, "The English Patient"],
+  [8, 17, "The Nap"],
+  [8, 18, "The Millennium"],
   [8, 19, "The Yada Yada"],
-  [8, 20, "The Millennium"],
-  [8, 21, "The Muffin Tops"],
-  [8, 22, "The Summer of George"],
+  [8, 20, "The Muffin Tops"],
+  [8, 21, "The Summer of George"],
+  [8, 22, "The Serenity Now"],
 
   [9, 1, "The Butter Shave"],
   [9, 2, "The Voice"],
@@ -183,34 +188,168 @@ const episodes = [
   [9, 18, "The Frogger"],
   [9, 19, "The Maid"],
   [9, 20, "The Puerto Rican Day"],
-  [9, 21, "The Chronicle (Part 1)"],
-  [9, 22, "The Chronicle (Part 2)"],
+  [9, 21, "The Clip Show (Part 1)"],
+  [9, 22, "The Clip Show (Part 2)"],
   [9, 23, "The Finale (Part 1)"],
   [9, 24, "The Finale (Part 2)"],
 ];
+
+const sampleBtn = document.getElementById("sampleBtn");
+const result = document.getElementById("result");
+const seasonEl = document.getElementById("season");
+const episodeEl = document.getElementById("episode");
+const titleEl = document.getElementById("title");
+const episodeImage = document.getElementById("episodeImage");
+const imageFallback = document.getElementById("imageFallback");
+const netflixLink = document.getElementById("netflixLink");
+const swipeArea = document.getElementById("swipeArea");
+const themeToggle = document.getElementById("themeToggle");
+const installBtn = document.getElementById("installBtn");
+
+let cachedShowId = null;
+let deferredPrompt = null;
 
 function sampleEpisode() {
   const index = Math.floor(Math.random() * episodes.length);
   return episodes[index];
 }
 
-const btn = document.getElementById("sampleBtn");
-const card = document.getElementById("result");
-const seasonEl = document.getElementById("season");
-const episodeEl = document.getElementById("episode");
-const titleEl = document.getElementById("title");
+async function getSeinfeldShowId() {
+  if (cachedShowId !== null) return cachedShowId;
 
-btn.addEventListener("click", () => {
-  const [season, episode, title] = sampleEpisode();
+  const res = await fetch(TVMAZE_SHOW_SEARCH);
+  if (!res.ok) throw new Error("Failed to fetch show data.");
+
+  const show = await res.json();
+  cachedShowId = show.id;
+  return cachedShowId;
+}
+
+async function getEpisodeImage(season, episodeNumber) {
+  const showId = await getSeinfeldShowId();
+  const res = await fetch(TVMAZE_EPISODE_BY_NUMBER(showId, season, episodeNumber));
+
+  if (!res.ok) throw new Error("Failed to fetch episode data.");
+
+  const data = await res.json();
+  return data?.image?.original || data?.image?.medium || null;
+}
+
+function showImage(url) {
+  episodeImage.classList.remove("loaded");
+  episodeImage.src = "";
+  imageFallback.classList.add("hidden");
+
+  if (!url) {
+    episodeImage.classList.add("hidden");
+    imageFallback.classList.remove("hidden");
+    return;
+  }
+
+  episodeImage.classList.remove("hidden");
+  episodeImage.onload = () => episodeImage.classList.add("loaded");
+  episodeImage.onerror = () => {
+    episodeImage.classList.add("hidden");
+    imageFallback.classList.remove("hidden");
+  };
+  episodeImage.src = url;
+}
+
+async function renderSample() {
+  const [season, episodeNumber, title] = sampleEpisode();
 
   seasonEl.textContent = season;
-  episodeEl.textContent = episode;
+  episodeEl.textContent = episodeNumber;
   titleEl.textContent = title;
+  netflixLink.href = NETFLIX_SEINFELD_URL;
 
-  card.classList.remove("hidden");
+  result.classList.remove("hidden");
+  result.style.animation = "none";
+  void result.offsetHeight;
+  result.style.animation = "fadeIn 0.45s ease";
 
-  // subtle re-animation
-  card.style.animation = "none";
-  card.offsetHeight;
-  card.style.animation = "fadeIn 0.5s ease";
+  imageFallback.textContent = "Loading image...";
+  imageFallback.classList.remove("hidden");
+  episodeImage.classList.add("hidden");
+
+  try {
+    const imageUrl = await getEpisodeImage(season, episodeNumber);
+    imageFallback.textContent = "No episode image found";
+    showImage(imageUrl);
+  } catch {
+    imageFallback.textContent = "Could not load episode image";
+    episodeImage.classList.add("hidden");
+    imageFallback.classList.remove("hidden");
+  }
+}
+
+function applyTheme(theme) {
+  const isLight = theme === "light";
+  document.body.classList.toggle("light-mode", isLight);
+  themeToggle.textContent = isLight ? "☀️ Light mode" : "🌙 Dark mode";
+  localStorage.setItem("theme", theme);
+
+  const metaTheme = document.querySelector('meta[name="theme-color"]');
+  metaTheme.setAttribute("content", isLight ? "#f4f7fb" : "#0f2027");
+}
+
+function initTheme() {
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme === "light" || savedTheme === "dark") {
+    applyTheme(savedTheme);
+    return;
+  }
+
+  const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+  applyTheme(prefersLight ? "light" : "dark");
+}
+
+themeToggle.addEventListener("click", () => {
+  const isCurrentlyLight = document.body.classList.contains("light-mode");
+  applyTheme(isCurrentlyLight ? "dark" : "light");
 });
+
+sampleBtn.addEventListener("click", renderSample);
+
+let startX = 0;
+let endX = 0;
+
+swipeArea.addEventListener("touchstart", (e) => {
+  startX = e.changedTouches[0].clientX;
+}, { passive: true });
+
+swipeArea.addEventListener("touchend", (e) => {
+  endX = e.changedTouches[0].clientX;
+  const delta = endX - startX;
+
+  if (Math.abs(delta) > 50) {
+    renderSample();
+  }
+}, { passive: true });
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.classList.remove("hidden");
+});
+
+installBtn.addEventListener("click", async () => {
+  if (!deferredPrompt) return;
+
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  installBtn.classList.add("hidden");
+});
+
+window.addEventListener("appinstalled", () => {
+  installBtn.classList.add("hidden");
+});
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js");
+  });
+}
+
+initTheme();

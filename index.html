@@ -3,24 +3,63 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Seinfeld Random Episode</title>
+  <meta name="theme-color" content="#0f2027" />
+  <title>Seinfeld Randomizer</title>
+
+  <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="background"></div>
 
   <main class="container">
-    <h1 class="title">Seinfeld Random Episode</h1>
+    <div class="top-bar">
+      <button id="themeToggle" class="top-button" type="button">🌙 Dark mode</button>
+      <button id="installBtn" class="top-button hidden" type="button">📲 Install app</button>
+    </div>
+
+    <h1 class="title">Seinfeld Randomizer</h1>
     <p class="subtitle">Uniformly sampled from all 180 episodes</p>
 
-    <button id="sampleBtn" class="glow-button">
-      🎲 Pick an Episode
-    </button>
+    <button id="sampleBtn" class="glow-button" type="button">🎲 Pick an Episode</button>
 
-    <div id="result" class="card hidden">
-      <div class="badge">Season <span id="season"></span> • Episode <span id="episode"></span></div>
-      <h2 id="title" class="episode-title"></h2>
-    </div>
+    <section id="result" class="card hidden">
+      <div class="image-wrap" id="swipeArea">
+        <img
+          id="episodeImage"
+          class="episode-image"
+          alt="Episode still"
+          loading="lazy"
+        />
+        <div id="imageFallback" class="image-fallback hidden">
+          No episode image found
+        </div>
+      </div>
+
+      <div class="meta">
+        <div class="badge">
+          Season <span id="season"></span> • Episode <span id="episode"></span>
+        </div>
+
+        <h2 id="title" class="episode-title"></h2>
+
+        <p class="swipe-hint">Swipe left or right on the image to get the next episode</p>
+
+        <div class="actions">
+          <a
+            id="netflixLink"
+            class="netflix-link"
+            href="https://www.netflix.com/title/70153373"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            📺 Watch on Netflix
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <p class="credit">Episode images powered by TVmaze</p>
   </main>
 
   <script src="script.js"></script>
