@@ -57,4 +57,4 @@ The app includes a `manifest.json` and a `service-worker.js`, which enable it to
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](https://github.com/OrF8/RandomSeinfeldEpisode/blob/main/LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/OrF8/RandomSeinfeldEpisode/blob/master/LICENSE) file for details.
