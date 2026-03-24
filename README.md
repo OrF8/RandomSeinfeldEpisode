@@ -15,7 +15,7 @@ A lightweight, client-side web app that picks a random Seinfeld episode from the
 
 ## Demo
 
-[Live Demo](https://OrF8.github.io/RandomSeinfeldEpisode/) — hosted on GitHub Pages
+[Live Demo](https://OrF8.github.io/RandomSeinfeldEpisode/)
 
 ## How It Works
 
@@ -63,7 +63,7 @@ Alternatively, you can open `index.html` directly in most browsers, though some 
 1. Push the repository to GitHub.
 2. Go to **Settings → Pages**.
 3. Under **Source**, select **Deploy from a branch**, choose the `main` branch and the `/ (root)` folder.
-4. Save. GitHub Pages will publish the site at `https://<your-username>.github.io/RandomSeinfeldEpisode/`.
+4. Save. GitHub Pages will publish the site at `https://OrF8.github.io/RandomSeinfeldEpisode/`.
 
 ## PWA Support
 
