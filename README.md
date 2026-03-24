@@ -11,7 +11,7 @@ A lightweight, client-side web app that picks a random Seinfeld episode from the
 - Swipe left or right on touch devices to get another episode
 - Dark and light mode, with automatic detection based on system preference
 - Installable as a Progressive Web App (PWA)
-- Fully responsive — works on desktop and mobile
+- Fully responsive, works on desktop and mobile
 
 ## Demo
 
