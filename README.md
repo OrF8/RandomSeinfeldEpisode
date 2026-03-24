@@ -13,9 +13,9 @@ A lightweight, client-side web app that picks a random Seinfeld episode from the
 - Installable as a Progressive Web App (PWA)
 - Fully responsive, works on desktop and mobile
 
-## Demo
+## Website
 
-[Live Demo](https://OrF8.github.io/RandomSeinfeldEpisode/)
+[Live Website](https://OrF8.github.io/RandomSeinfeldEpisode/)
 
 ## How It Works
 
