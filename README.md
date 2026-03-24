@@ -1,6 +1,6 @@
 # Seinfeld Randomizer
 
-A lightweight, client-side web app that picks a random Seinfeld episode from the full canonical list of 180 episodes. Built as a static site with no backend — just open it and spin the wheel.
+A lightweight, client-side web app that picks a random Seinfeld episode from the full canonical list of 180 episodes. Built as a static site with no backend. Just open it and spin the wheel!
 
 ## Features
 
