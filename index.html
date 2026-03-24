@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seinfeld Random Episode</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="background"></div>
+
+  <main class="container">
+    <h1 class="title">Seinfeld Random Episode</h1>
+    <p class="subtitle">Uniformly sampled from all 180 episodes</p>
+
+    <button id="sampleBtn" class="glow-button">
+      🎲 Pick an Episode
+    </button>
+
+    <div id="result" class="card hidden">
+      <div class="badge">Season <span id="season"></span> • Episode <span id="episode"></span></div>
+      <h2 id="title" class="episode-title"></h2>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
