@@ -225,15 +225,25 @@ async function getSeinfeldShowId() {
   return cachedShowId;
 }
 
-async function getEpisodeImage(season, episodeNumber) {
+function stripHtml(html) {
+  if (!html) return "";
+  const tmp = document.createElement("div");
+  tmp.innerHTML = html;
+  return (tmp.textContent || tmp.innerText || "").trim();
+}
+
+async function getEpisodeDetails(season, episodeNumber) {
   const showId = await getSeinfeldShowId();
   const res = await fetch(TVMAZE_EPISODE_BY_NUMBER(showId, season, episodeNumber));
-
   if (!res.ok) throw new Error("Failed to fetch episode data.");
 
   const data = await res.json();
-  return data?.image?.original || data?.image?.medium || null;
+  return {
+    imageUrl: data?.image?.original || data?.image?.medium || null,
+    summary: stripHtml(data?.summary) || "No summary available."
+  };
 }
+
 
 function showImage(url) {
   episodeImage.classList.remove("loaded");
@@ -261,6 +271,7 @@ async function renderSample() {
   seasonEl.textContent = season;
   episodeEl.textContent = episodeNumber;
   titleEl.textContent = title;
+  summaryEl.textContent = "Loading summary...";
   netflixLink.href = NETFLIX_SEINFELD_URL;
 
   result.classList.remove("hidden");
@@ -273,11 +284,12 @@ async function renderSample() {
   episodeImage.classList.add("hidden");
 
   try {
-    const imageUrl = await getEpisodeImage(season, episodeNumber);
-    imageFallback.textContent = "No episode image found";
+    const { imageUrl, summary } = await getEpisodeDetails(season, episodeNumber);
+    summaryEl.textContent = summary;
     showImage(imageUrl);
   } catch {
     imageFallback.textContent = "Could not load episode image";
+    summaryEl.textContent = "Could not load episode summary.";
     episodeImage.classList.add("hidden");
     imageFallback.classList.remove("hidden");
   }
@@ -351,5 +363,7 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("./service-worker.js");
   });
 }
+
+const summaryEl = document.getElementById("summary");
 
 initTheme();

@@ -1,4 +1,4 @@
-const CACHE_NAME = "seinfeld-randomizer-v1";
+const CACHE_NAME = "seinfeld-randomizer-v2";
 const URLS_TO_CACHE = [
   "./",
   "./index.html",
