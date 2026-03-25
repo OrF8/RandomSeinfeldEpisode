@@ -199,6 +199,7 @@ const result = document.getElementById("result");
 const seasonEl = document.getElementById("season");
 const episodeEl = document.getElementById("episode");
 const titleEl = document.getElementById("title");
+const summaryEl = document.getElementById("summary");
 const episodeImage = document.getElementById("episodeImage");
 const imageFallback = document.getElementById("imageFallback");
 const netflixLink = document.getElementById("netflixLink");
@@ -363,7 +364,5 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("./service-worker.js");
   });
 }
-
-const summaryEl = document.getElementById("summary");
 
 initTheme();
